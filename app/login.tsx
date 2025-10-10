@@ -21,22 +21,33 @@ export default function LoginScreen() {
   const [verifiedEmail, setVerifiedEmail] = useState(false);
   const [userFound, setUserFound] = useState<User | null>(null);
 
-  async function handleVerifyEmail() {
-    setError('');
-    try {
-      const response = await api.get(`api/v1/users/email?email=${encodeURIComponent(email)}`);
-      const userData: User = response.data;
+async function handleVerifyEmail() {
+  setError('');
 
-      if (userData) {
-        setUserFound(userData);
-        setVerifiedEmail(true);
-      } else {
-        setError('Usuário não encontrado.');
-      }
-    } catch (e) {
+  try {
+    const response = await api.get(`api/v1/users/email?email=${encodeURIComponent(email)}`);
+    const userData: User = response.data;
+
+    if (userData) {
+      setUserFound(userData);
+      setVerifiedEmail(true);
+    }
+  } catch (e: any) {
+    console.log('Erro completo no handleVerifyEmail:', e);
+    console.log('e.response.status:', e.response?.status);
+    console.log('e.response.data:', e.response?.data);
+
+    // Correção aqui — agora usando 404
+    if (e.response && e.response.status === 404) {
+      router.push({
+        pathname: '/loadingPage',
+        params: { next: '/cadastro' },
+      });
+    } else {
       setError('Erro ao verificar e-mail.');
     }
   }
+}
 
   async function handleLogin() {
     setError('');
