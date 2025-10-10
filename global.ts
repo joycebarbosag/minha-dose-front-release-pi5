@@ -111,18 +111,18 @@ export const globalStyles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#002C5F',
+    backgroundColor: '#FFFF',
     paddingHorizontal: 20,
   },
   cadastroInput: {
     width: '100%',
     height: 50,
-    borderColor: '#fff',
+    borderColor: '#E0E0E0',
     borderWidth: 1,
     borderRadius: 5,
     paddingHorizontal: 15,
     marginVertical: 8,
-    color: '#fff',
+    backgroundColor: '#F5F5F5',
   },
   button: {
     backgroundColor: '#fff',
@@ -151,9 +151,17 @@ export const globalStyles = StyleSheet.create({
     color: '#fff',
   },
   cadastroIntro: {
-    color: '#fff',
+    color: '#022757',
     fontSize: 20,
-    marginTop: 30,
+    marginTop: 10,
+    marginBottom: 5,
+    textAlign: 'left',
+    fontWeight: 'bold',
+  },
+  cadastroSubTitle:{
+    color: '#022757',
+    fontSize: 12,
+    marginTop: 10,
     marginBottom: 30,
   },
   logo: {
@@ -161,6 +169,11 @@ export const globalStyles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#fff',
     marginBottom: 8,
+  }, 
+  smallLogo: {
+    width: 100,
+    height: 100,
+    alignSelf: 'center'
   },
   subtitle: {
     color: '#fff',
