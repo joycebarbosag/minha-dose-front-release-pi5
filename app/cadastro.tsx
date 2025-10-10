@@ -8,6 +8,7 @@ import {
     ScrollView,
     Text,
     TextInput,
+    TouchableOpacity,
     TouchableWithoutFeedback,
     View
 } from 'react-native';
@@ -27,6 +28,10 @@ export default function CadastroScreen() {
     const [district, setDistrict] = useState('');
     const [houseNumber, setHouseNumber] = useState('');
     const [country, setCountry] = useState('');
+
+    const allFieldsFilled = cpf.trim().length > 0 && name.trim().length > 0 && zipCode.trim().length > 0
+    && address.trim().length > 0 && city.trim().length && neighborhood.trim().length && district.trim().length
+    && houseNumber.trim().length > 0 && country.trim().length > 0;
 
     return (
         <KeyboardAvoidingView
@@ -56,6 +61,15 @@ export default function CadastroScreen() {
                     <TextInput placeholder="Estado" placeholderTextColor="#022757" style={globalStyles.cadastroInput} value={district} onChangeText={setDistrict} />
                     <TextInput placeholder="País" placeholderTextColor="#022757" style={globalStyles.cadastroInput} value={country} onChangeText={setCountry} />
                     <TextInput placeholder="N. da casa" placeholderTextColor="#022757" style={globalStyles.cadastroInput} value={houseNumber} onChangeText={setHouseNumber} keyboardType="numeric" />
+                
+                    <View style={globalStyles.buttonContainer}>
+                        <TouchableOpacity style={[globalStyles.buttonCadastro, globalStyles.backButton]} onPress={() => router.push('/login')}>
+                            <Text style={globalStyles.buttonCadastroText}>Voltar</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={[globalStyles.buttonCadastro, globalStyles.continueButton, !allFieldsFilled && { backgroundColor: '#ccc' }]} onPress={() => router.push('/cadastro-second')} disabled={!allFieldsFilled}>
+                            <Text style={globalStyles.buttonCadastroText}>Continuar</Text>
+                        </TouchableOpacity>
+                    </View>
                 </ScrollView>
             </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
