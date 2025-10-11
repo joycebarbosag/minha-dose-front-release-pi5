@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import React from 'react';
 import {
     Image,
     Keyboard,
@@ -14,13 +14,13 @@ import {
 } from 'react-native';
 import logo from '../assets/images/logo/minha-dose-logo.png';
 import { globalStyles } from '../global';
+import { useUserDataStore } from './store/userDataStore';
 
 export default function CadastroSecondScreen() {
     
     const router = useRouter();
 
-    const [email, setEmail] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
+    const { email, phoneNumber, setField } = useUserDataStore();
     const allFieldsFilled = email.trim().length > 0 && phoneNumber.trim().length > 0;
 
     return (
@@ -42,8 +42,8 @@ export default function CadastroSecondScreen() {
                         <Text style={globalStyles.cadastroSubTitle}>Para fornecer o melhor serviço possível, todos os dados solicitados abaixo devem ser informados.</Text>
                     </View>
 
-                    <TextInput placeholder="E-mail" placeholderTextColor="#022757" style={globalStyles.cadastroInput} value={email} onChangeText={setEmail} />
-                    <TextInput placeholder="Telefone celular" placeholderTextColor="#022757" style={globalStyles.cadastroInput} value={phoneNumber} onChangeText={setPhoneNumber} />
+                    <TextInput placeholder="E-mail" placeholderTextColor="#022757" style={globalStyles.cadastroInput} value={email} onChangeText={(text)=> setField('email', text)} />
+                    <TextInput placeholder="Telefone celular" placeholderTextColor="#022757" style={globalStyles.cadastroInput} value={phoneNumber} onChangeText={(text) => setField('phoneNumber', text)} />
                     
                     <View style={globalStyles.buttonContainer}>
                         <TouchableOpacity style={[globalStyles.buttonCadastro, globalStyles.backButton]} onPress={() => router.push('/cadastro')}>

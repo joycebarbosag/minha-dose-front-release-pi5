@@ -1,4 +1,4 @@
-import { Feather } from '@expo/vector-icons'; // Ícones de olho
+import { Feather } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
@@ -13,13 +13,15 @@ import {
     TouchableWithoutFeedback,
     View
 } from 'react-native';
+import api from '../api/api';
 import logo from '../assets/images/logo/minha-dose-logo.png';
 import { globalStyles } from '../global';
+import { useUserDataStore } from './store/userDataStore';
 
 export default function CadastroThirdScreen() {
     const router = useRouter();
-
-    const [password, setPassword] = useState('');
+    const { password, setField } = useUserDataStore();
+    const userData = useUserDataStore();
     const [showPassword, setShowPassword] = useState(false);
     const [passwordRules, setPasswordRules] = useState({
         minLength: false,
@@ -50,6 +52,41 @@ export default function CadastroThirdScreen() {
     }, [password]);
 
     const isPasswordValid = Object.values(passwordRules).every(Boolean);
+
+    const handleConfirm = async () => {
+        if (!isPasswordValid) return;
+        const body = {
+            name: userData.name,
+            cpf: userData.cpf,
+            password: password,
+            email: userData.email,
+            age: userData.age,
+            role: "user",
+            address: {
+                street: userData.address,
+                city: userData.city,
+                district: userData.district,
+                neighborhood: userData.neighborhood,
+                country: userData.country,
+                zipCode: userData.zipCode,
+            },
+            contact: {
+                phone: userData.phoneNumber,
+                email: userData.email
+            }
+        };
+
+        console.log('Dados do cadastro: ', body);
+
+        try{
+            const response = await api.post('/api/v1/users/', body);
+            console.log('Usuário criado com sucesso: ', response.data);
+            router.push('/login');
+        }catch (error: any){
+            console.error('Erro ao criar usuário: ', error.response?.data || error.message);
+            alert('Erro ao criar usuário.');
+        }
+    }
 
     return (
         <KeyboardAvoidingView
@@ -94,7 +131,7 @@ export default function CadastroThirdScreen() {
                             secureTextEntry={!showPassword}
                             style={[globalStyles.cadastroInput, { flex: 1, borderWidth: 0 }]}
                             value={password}
-                            onChangeText={setPassword}
+                            onChangeText={(text) => setField('password', text)}
                         />
                         <TouchableOpacity onPress={togglePasswordVisibility} style={globalStyles.eyeButton}>
                             <Feather
@@ -119,7 +156,7 @@ export default function CadastroThirdScreen() {
                                 globalStyles.continueButton,
                                 !isPasswordValid && { backgroundColor: '#ccc' },
                             ]}
-                            onPress={() => router.push('/login')}
+                            onPress={handleConfirm}
                             disabled={!isPasswordValid}
                         >
                             <Text
