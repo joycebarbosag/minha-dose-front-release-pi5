@@ -9,7 +9,8 @@ import { useUserDataStore } from './store/userDataStore';
 type User = {
   id: number;
   email: string;
-  password: string;
+  role?: string;
+  token?: string;
 };
 
 export default function LoginScreen() {
@@ -23,45 +24,60 @@ export default function LoginScreen() {
   const [verifiedEmail, setVerifiedEmail] = useState(false);
   const [userFound, setUserFound] = useState<User | null>(null);
 
-async function handleVerifyEmail() {
-  setError('');
+  async function handleVerifyEmail() {
+    setError('');
 
-  try {
-    const response = await api.get(`api/v1/users/email?email=${encodeURIComponent(email)}`);
-    const userData: User = response.data;
+    try {
+      const response = await api.get(`api/v1/users/email?email=${encodeURIComponent(email)}`);
+      const userData: User = response.data;
 
-    if (userData) {
-      setUserFound(userData);
-      setVerifiedEmail(true);
-    }
-  } catch (e: any) {
+      if (userData) {
+        setUserFound(userData);
+        setVerifiedEmail(true);
+      }
+    } catch (e: any) {
 
-    if (e.response && e.response.status === 404) {
-      setUserDataEmail('email', email);
-      router.push({
-        pathname: '/loadingPage',
-        params: { next: '/cadastro' },
-      });
-    } else {
-      setError('Erro ao verificar e-mail.');
+      if (e.response && e.response.status === 404) {
+        setUserDataEmail('email', email);
+        router.push({
+          pathname: '/loadingPage',
+          params: { next: '/cadastro' },
+        });
+      } else {
+        setError('Erro ao verificar e-mail.');
+      }
     }
   }
-}
 
   async function handleLogin() {
     setError('');
 
-    if (!userFound) {
-      setError('Usuário não carregado. Tente novamente.');
-      return;
-    }
+    try {
+      const response = await api.post(
+        '/api/v1/auth/login',
+        { email, password: senha },
+        { headers: { 'Content-Type': 'application/json' } }
+      );
 
-    if (userFound.password === senha) {
-      const { password, ...userWithoutPassword } = userFound;
-      setUser(userWithoutPassword);
+      const { token } = response.data;
+
+      if (!token) {
+        setError('Falha ao autenticar usuário.');
+        return;
+      }
+
+      setUser({
+        ...userFound,
+        token,
+      } as any);
+
       router.push('/home');
-    } else {
-      setError('Senha incorreta.');
+    } catch (e: any) {
+      if (e.response?.status === 401) {
+        setError('Senha incorreta.');
+      } else {
+        setError('Erro ao realizar login.');
+      }
     }
   }
 
