@@ -129,12 +129,10 @@ export default function LoginScreen() {
           </Text>
         </TouchableOpacity>
 
-        {/*
         <Text style={styles.footerText}>
           Esqueceu a senha?
           <Text onPress={() => router.push('/(resetPassword)/reset-first')} style={styles.link}> Redefina</Text>
         </Text>
-        */}
 
       </View>
     </View>
