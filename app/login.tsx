@@ -131,8 +131,8 @@ export default function LoginScreen() {
 
         {/*
         <Text style={styles.footerText}>
-          Não possui cadastro?
-          <Text onPress={() => router.push('/cadastro')} style={styles.link}> Registrar</Text>
+          Esqueceu a senha?
+          <Text onPress={() => router.push('/(resetPassword)/reset-first')} style={styles.link}> Redefina</Text>
         </Text>
         */}
 
