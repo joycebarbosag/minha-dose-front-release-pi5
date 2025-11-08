@@ -23,7 +23,7 @@ export default function TabLayout() {
                 }}
             />
             <Tabs.Screen
-                name="appointment"
+                name="(appointment)/appointment"
                 options={{
                     title: 'Agendamento',
                     tabBarIcon: ({ color, size }) => <Ionicons name="calendar" size={size} color={color} />
@@ -59,6 +59,13 @@ export default function TabLayout() {
                     href: null,
                     headerShown: false,
                     tabBarIcon: ({ color, size }) => <Octicons name="question" size={size} color={color} />
+                }}
+            />
+            <Tabs.Screen
+                name="(appointment)/appointment-ubs"
+                options={{
+                    href: null,
+                    title: "Selecionar UBS",
                 }}
             />
         </Tabs>

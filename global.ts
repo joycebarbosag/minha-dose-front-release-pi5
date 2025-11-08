@@ -304,4 +304,31 @@ export const globalStyles = StyleSheet.create({
     color: "#777",
     marginTop: 30,
   },
+  appointUbsChooseBtnTitle: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold"
+  },
+  appointmentUbsChooseBtn: {
+    backgroundColor: "#022757",
+    paddingVertical: 14,
+    borderRadius: 12,
+    alignItems: "center"
+  },
+  appointmentUbsChooseView: {
+    position: "absolute",
+    bottom: 20,
+    left: 20,
+    right: 20
+  },
+  loadingAppointment: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#FFFF"
+  },
+  loadingAppointmentTxt: {
+    marginTop: 10,
+    color: "#002856"
+  }
 });
